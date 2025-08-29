@@ -11,7 +11,11 @@ type Props = {
   jwtState: DecodedJWT | null;
   setJwtState: (data: DecodedJWT | null) => void;
   setShowDecoder: (show: boolean) => void;
-  addToHistory: (entry: { token: string; status: 'valid' | 'invalid'; payload?: any }) => void;
+  addToHistory: (entry: {
+    token: string;
+    status: 'valid' | 'invalid';
+    payload?: DecodedJWT;
+  }) => void;
 };
 
 export default function Terminal({ jwtState, setJwtState, setShowDecoder, addToHistory }: Props) {

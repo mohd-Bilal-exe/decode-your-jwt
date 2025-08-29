@@ -1,10 +1,16 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect } from 'react';
+import { DecodedJWT } from '../types';
 
 export default function HistorySidebar({
   history,
 }: {
-  history: { token: string; status: 'valid' | 'invalid'; payload?: string; decodedAt?: number }[];
+  history: {
+    token: string;
+    status: 'valid' | 'invalid';
+    payload?: DecodedJWT;
+    decodedAt?: number;
+  }[];
 }) {
   const [showHistory, setShowHistory] = useState(false);
   const [sortOrder, setSortOrder] = useState<'newest' | 'oldest'>('newest');

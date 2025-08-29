@@ -11,7 +11,7 @@ export default function Home() {
   const [decoded, setDecoded] = useState<DecodedJWT | null>(null);
   const [showDecoder, setShowDecoder] = useState(false);
   const [history, setHistory] = useState<
-    { token: string; status: 'valid' | 'invalid'; payload?: any }[]
+    { token: string; status: 'valid' | 'invalid'; payload?: DecodedJWT }[]
   >([]);
   const [showHistory, setShowHistory] = useState(false);
   useEffect(() => {
