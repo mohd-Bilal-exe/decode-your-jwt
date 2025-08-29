@@ -1,103 +1,76 @@
-import Image from "next/image";
+'use client';
+
+import { useEffect, useState } from 'react';
+import Header from './componnets/Header';
+import Terminal from './componnets/Terminal';
+import { DecodedJWT } from './types';
+import { motion, AnimatePresence } from 'framer-motion';
+import HistorySidebar from './componnets/HistorySidebar';
 
 export default function Home() {
+  const [decoded, setDecoded] = useState<DecodedJWT | null>(null);
+  const [showDecoder, setShowDecoder] = useState(false);
+  const [history, setHistory] = useState<
+    { token: string; status: 'valid' | 'invalid'; payload?: any }[]
+  >([]);
+  const [showHistory, setShowHistory] = useState(false);
+  useEffect(() => {
+    const saved = localStorage.getItem('decodeHistory');
+    if (saved) {
+      setHistory(JSON.parse(saved));
+    }
+  }, []);
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+    <main className="flex flex-col bg-neutral-950 min-h-screen overflow-hidden font-mono text-green-400">
+      <Header />
+      <div className="relative flex flex-1 justify-center items-center p-6 w-full">
+        <AnimatePresence mode="wait">
+          {!showDecoder ? (
+            <motion.div
+              key="landing"
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -40 }}
+              transition={{ duration: 0.3, ease: 'easeInOut', type: 'spring' }}
+              className="flex flex-col items-center space-y-6 text-center"
+            >
+              <h1 className="font-bold text-green-400 text-4xl md:text-5xl">Decode your JWT</h1>
+              <p className="max-w-md text-zinc-400">
+                Paste, inspect, and validate your JSON Web Tokens with ease.
+              </p>
+              <button
+                onClick={() => setShowDecoder(true)}
+                className="bg-green-600 hover:bg-green-500 px-6 py-3 rounded-lg font-semibold text-black transition-colors"
+              >
+                Launch Decoder
+              </button>
+            </motion.div>
+          ) : (
+            <motion.div
+              key="terminal"
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -40 }}
+              transition={{ duration: 0.3, ease: 'easeInOut', type: 'spring' }}
+              className="flex justify-center items-center w-full h-full"
+            >
+              <Terminal
+                jwtState={decoded}
+                setJwtState={setDecoded}
+                setShowDecoder={setShowDecoder}
+                addToHistory={entry => {
+                  setHistory(prev => [...prev, { ...entry, decodedAt: Date.now() }]);
+                  localStorage.setItem(
+                    'decodeHistory',
+                    JSON.stringify([...history, { ...entry, decodedAt: Date.now() }])
+                  );
+                }}
+              />
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>{' '}
+      {history.length > 0 && !showDecoder && <HistorySidebar history={history} />}
+    </main>
   );
 }

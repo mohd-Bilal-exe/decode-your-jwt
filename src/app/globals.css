@@ -24,3 +24,25 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+::-webkit-scrollbar {
+  width: 2px;
+  
+}
+::-webkit-scrollbar:horizontal {
+  display: none;
+}
+::-webkit-scrollbar-track {
+  margin-top: 30px;
+  margin-bottom: 30px;
+  background: rgba(16, 16, 16, 0);
+}
+::-webkit-scrollbar-thumb {
+  background: #00ff2a7e;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #252422;
+}
+::-webkit-scrollbar-corner {
+  display: none; /* Hide the bottom scrollbar */
+}
