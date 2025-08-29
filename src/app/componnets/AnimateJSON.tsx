@@ -1,15 +1,16 @@
-"use client";
-import { useEffect, useState } from "react";
-import TerminalLine from "./TerminalLine";
+'use client';
+import { useEffect, useState } from 'react';
+import TerminalLine from './TerminalLine';
+import { DecodedJWT } from '../types';
 
 type Props = {
-  data: Record<string, any>;
+  data: DecodedJWT;
   onStep?: () => void;
 };
 
-export default function AnimatedJSON({ data,onStep }: Props) {
+export default function AnimatedJSON({ data, onStep }: Props) {
   const [lines, setLines] = useState<string[]>([]);
-  const jsonLines = JSON.stringify(data, null, 2).split("\n");
+  const jsonLines = JSON.stringify(data, null, 2).split('\n');
 
   useEffect(() => {
     let i = 0;

@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 export default function HistorySidebar({
   history,
 }: {
-  history: { token: string; status: 'valid' | 'invalid'; payload?: any; decodedAt?: number }[];
+  history: { token: string; status: 'valid' | 'invalid'; payload?: string; decodedAt?: number }[];
 }) {
   const [showHistory, setShowHistory] = useState(false);
   const [sortOrder, setSortOrder] = useState<'newest' | 'oldest'>('newest');
@@ -81,7 +81,7 @@ export default function HistorySidebar({
               <div className="flex justify-between gap-2">
                 <select
                   value={sortOrder}
-                  onChange={e => setSortOrder(e.target.value as any)}
+                  onChange={e => setSortOrder(e.target.value as 'newest' | 'oldest')}
                   className="flex-1 bg-zinc-800 px-2 py-1 rounded"
                 >
                   <option value="newest">Newest First</option>
@@ -90,7 +90,7 @@ export default function HistorySidebar({
 
                 <select
                   value={filter}
-                  onChange={e => setFilter(e.target.value as any)}
+                  onChange={e => setFilter(e.target.value as 'all' | 'valid' | 'invalid')}
                   className="flex-1 bg-zinc-800 px-2 py-1 rounded"
                 >
                   <option value="all">All</option>

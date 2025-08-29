@@ -21,7 +21,7 @@ export default function Terminal({ jwtState, setJwtState, setShowDecoder, addToH
       instant?: boolean;
       isDecoded?: boolean;
       status?: 'valid' | 'invalid';
-      payload?: any;
+      payload?: DecodedJWT;
     }[]
   >([
     { text: 'Welcome to JWT Decoder Terminal', instant: true },
