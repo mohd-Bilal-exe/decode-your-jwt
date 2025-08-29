@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { motion } from "framer-motion";
+import { motion } from 'framer-motion';
 
 export default function Header() {
   return (
@@ -11,7 +11,7 @@ export default function Header() {
         transition={{ duration: 0.5 }}
         className="font-bold text-green-400 text-2xl tracking-widest"
       >
-        {">" }Decode your JWT
+        {'> '} JWT Decoder
       </motion.h1>
     </header>
   );
